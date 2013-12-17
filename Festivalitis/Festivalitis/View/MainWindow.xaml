@@ -1,0 +1,55 @@
+﻿<Window x:Class="Festivalitis.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Festivalitis.View"
+        xmlns:vm="clr-namespace:Festivalitis.ViewModel"
+        Title="Festivalbeheer" Height="600" Width="788.611" MinHeight="600" MinWidth="788.611">
+        
+    <Window.DataContext>
+        <vm:ApplicationVM/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+            <DataTemplate DataType="{x:Type vm:HomePageVM}">
+                <v:HomePage/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:BandPageVM}">
+                <v:BandPage/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ContactPageVM}">
+                <v:ContactPage/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:LineUpPageVM}">
+                <v:LineUpPage/>
+             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:TicketPageVM}">
+                <v:TicketPage/>
+            </DataTemplate>
+            <ItemsPanelTemplate x:Key="MijnButtons">
+                <WrapPanel />
+
+            </ItemsPanelTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding Pages}" Margin="0" Grid.RowSpan="1" Background="#CCCCCC" ItemsPanel="{StaticResource MijnButtons}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                    <DataTemplate.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                        </Style>
+                    </DataTemplate.Resources>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ContentControl Grid.Row="1" Content="{Binding CurrentPage}"/>
+
+    </Grid>
+</Window>

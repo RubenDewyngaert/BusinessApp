@@ -27,6 +27,11 @@ namespace Festivalitis.ViewModel
             {
                 return _genres;
             }
+            set
+            {
+                _genres = value;
+                OnPropertyChanged("Genres");
+            }
         }
 
         private Genre _geselecteerdeGenre;
@@ -40,9 +45,12 @@ namespace Festivalitis.ViewModel
             set
             {
                 _geselecteerdeGenre = value;
-                _newGenre = _geselecteerdeGenre.Name;
-                Console.WriteLine("Select: " + _geselecteerdeGenre.Name);
-                Console.WriteLine(_newGenre);
+                if (_geselecteerdeGenre != null) {
+                    _newGenre = _geselecteerdeGenre.Name;
+                    Console.WriteLine("Select: " + _geselecteerdeGenre.Name);
+                    Console.WriteLine(_newGenre);
+                }
+
 
                 //deze is nodig zodat dit kan geupdate worden, de controls worden zo geupdate -->>> NOODZAKELIJK
                 OnPropertyChanged("GeslecteerdGenre");
@@ -137,11 +145,6 @@ namespace Festivalitis.ViewModel
             //Band.EditBand(SelectedBand);
         }
 
-        public void DeleteGenre()
-        {
-            //Genre.Remove(SelectedGenre);
-            //Genres.Remove(SelectedGenre);
-        }
 
         public ICommand NewBandCommand {
             get {
@@ -153,15 +156,20 @@ namespace Festivalitis.ViewModel
             //Band.NewBand(_newBand);
         }
 
-        public ICommand ClearBandCommand {
+        public ICommand DeleteGenreCommand {
             get
             {
-                return new RelayCommand(ClearBand);
+                return new RelayCommand(DeleteGenre);
             }
         }
 
-        public void ClearBand() {
-            
+        public void DeleteGenre()
+        {
+            NewGenre = "";
+            Genre.DeleteGenre(GeselecteerdGenre);
+            Genres.Remove(GeselecteerdGenre);
+
+
         }
 
         public ICommand AddGenreCommand {
@@ -174,6 +182,7 @@ namespace Festivalitis.ViewModel
         public void AddGenre() {
             Genre.NewGenre(NewGenre);
             _genres = Genre.getAll();
+            OnPropertyChanged("Genres");
         }
 
         public ICommand EditGenreCommand
@@ -186,8 +195,9 @@ namespace Festivalitis.ViewModel
 
         public void EditGenre()
         {
-            //Genre.EditGenre(GeselecteerdGenre.ID, NewGenre);
+            Genre.EditGenre(GeselecteerdGenre, NewGenre);
             _genres = Genre.getAll();
+            OnPropertyChanged("Genres");
         }
     }
 }

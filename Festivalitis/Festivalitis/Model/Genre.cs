@@ -62,10 +62,23 @@ namespace FestivalApp.model
             String sql =  "INSERT INTO Genre VALUES(@Name)";
             DbParameter par1 = Database.AddParameter("@Name", genre);
             if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1); 
+        }
+
+        public static void DeleteGenre(Genre genre) {
+            String sql = "DELETE FROM Genre WHERE ID = @Genre";
+            DbParameter par1 = Database.AddParameter("@Genre", genre._ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
             Database.ModifyData(sql, par1);
+        }
 
-
-            
+        public static void EditGenre(Genre genre, String naam)
+        {
+            String sql = "UPDATE Genre Set Name=@naam WHERE ID=@Genre";
+            DbParameter par1 = Database.AddParameter("@Genre", genre._ID);
+            DbParameter par2 = Database.AddParameter("@naam", naam);
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2);
         }
 
         public override string ToString(){

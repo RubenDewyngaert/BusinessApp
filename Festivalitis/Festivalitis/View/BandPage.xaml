@@ -38,10 +38,10 @@
                     <RowDefinition/>
                     <RowDefinition Height="158"/>
                 </Grid.RowDefinitions>
-                <ListBox Margin="10" ItemsSource="{Binding Genres}" SelectedItem="{Binding GeselecteerdGenre}" />
+                <ListBox Margin="10" ItemsSource="{Binding Genres}" SelectedItem="{Binding GeselecteerdGenre, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Grid.Row="1" Height="30" Margin="10,45,10,0" VerticalAlignment="Top" Content="Toevoegen" Command="{Binding AddGenreCommand}" />
-                <Button Grid.Row="1" Height="30" Margin="10,80,10,0" VerticalAlignment="Top" Content="Bewerken"  />
-                <Button Grid.Row="1" Height="30" Margin="10,115,10,0" VerticalAlignment="Top" Content="Verwijderen"  />
+                <Button Grid.Row="1" Height="30" Margin="10,80,10,0" VerticalAlignment="Top" Content="Bewerken" Command="{Binding EditGenreCommand}"  />
+                <Button Grid.Row="1" Height="30" Margin="10,115,10,0" VerticalAlignment="Top" Content="Verwijderen" Command="{Binding DeleteGenreCommand}"  />
                 <TextBox HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231" Text="{Binding NewGenre, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"/>
             </Grid>
         </GroupBox>

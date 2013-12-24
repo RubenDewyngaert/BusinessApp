@@ -196,6 +196,43 @@ namespace FestivalApp.model
 
             return band;
         }*/
+        public static void NewBand(Band band)
+        {
+            String sql = "INSERT INTO Band (Name, Picture, Description, Twitter, Facebook) VALUES(@Name, @Picture, @Description, @Twitter, @Facebook)";
+            DbParameter par1 = Database.AddParameter("@Name", band._Name);
+            DbParameter par2 = Database.AddParameter("@Picture", band._Name);
+            DbParameter par3 = Database.AddParameter("@Description", band._Name);
+            DbParameter par4 = Database.AddParameter("@Twitter", band._Name);
+            DbParameter par5 = Database.AddParameter("@Facebook", band._Name);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5);
+        }
+
+        public static void DeleteBand(Band band)
+        {
+            String sql = "DELETE FROM Band WHERE ID = @Band";
+            DbParameter par1 = Database.AddParameter("@Band", band._ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1);
+        }
+
+        public static void EditBand(Band band)
+        {
+            String sql = "UPDATE Stage Set Name=@naam Stage=@Stage Picture=@Picture Description=@Description Twitter=@Twitter Facebook=@Facebook WHERE ID=@Band";
+            DbParameter par1 = Database.AddParameter("@Band", band._ID);
+            DbParameter par2 = Database.AddParameter("@Name", band._Name);
+            DbParameter par3 = Database.AddParameter("@Picture", band._Picture);
+            DbParameter par4 = Database.AddParameter("@Description", band._Description);
+            DbParameter par5 = Database.AddParameter("@Twitter", band._Twitter);
+            DbParameter par6 = Database.AddParameter("@Facebook", band._Facebook);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5, par6);
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
 
     }
 }

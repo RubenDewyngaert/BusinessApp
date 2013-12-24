@@ -10,7 +10,10 @@ namespace Festivalitis.ViewModel
 {
     class ContactPageVM : ObservableObject, IPage
     {
-        //_contactpersonen = ContactPerson.getAll();
+
+        public ContactPageVM(){
+            _contactpersonen = Contactperson.getAll();
+        }
 
         public string Name
         {
@@ -38,9 +41,30 @@ namespace Festivalitis.ViewModel
             set
             {
                 _geselecteerdePersoon = value;
-                Console.WriteLine("Select: " + _geselecteerdePersoon.Name);
+                if (_geselecteerdePersoon != null)
+                {
+                    _newPerson = _geselecteerdePersoon;
+                    Console.WriteLine("Select: " + _geselecteerdePersoon.Name);
+                }
 
                 OnPropertyChanged("GeslecteerdPersoon");
+                OnPropertyChanged("NewPerson");
+            }
+        }
+
+        private Contactperson _newPerson;
+
+        public Contactperson NewPerson
+        {
+            get
+            {
+                return _newPerson;
+            }
+
+            set
+            {
+                _newPerson = value;
+                OnPropertyChanged("NewPerson");
             }
         }
     }

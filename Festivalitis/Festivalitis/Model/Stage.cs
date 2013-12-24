@@ -59,16 +59,34 @@ namespace FestivalApp.model
             return lijst;
         }
 
-        /*public static Stage getStage(String sID)
+        public static void NewStage(Stage stage)
         {
-            Stage stage = new Stage();
-            String sSQL = "SELECT * FROM Stage WHERE id=@filter";
-            DbParameter filter = Database.AddParameter("@filter", sID);
-            DbDataReader reader = Database.GetData(sSQL);
-            while (reader.Read())
-                stage.ID = reader["ID"].ToString();
-            stage.Name = reader["Name"].ToString();
-            return stage;
-        }*/
+            String sql = "INSERT INTO Stage VALUES(@Name)";
+            DbParameter par1 = Database.AddParameter("@Name", stage);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1);
+        }
+
+        public static void DeleteStage(Stage stage)
+        {
+            String sql = "DELETE FROM Stage WHERE ID = @Stage";
+            DbParameter par1 = Database.AddParameter("@Stage", stage._ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1);
+        }
+
+        public static void EditStage(Stage stage, String naam)
+        {
+            String sql = "UPDATE Stage Set Name=@naam WHERE ID=@Stage";
+            DbParameter par1 = Database.AddParameter("@Stage", stage._ID);
+            DbParameter par2 = Database.AddParameter("@naam", naam);
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2);
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

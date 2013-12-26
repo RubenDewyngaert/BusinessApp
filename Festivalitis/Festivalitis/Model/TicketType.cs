@@ -82,5 +82,11 @@ namespace FestivalApp.model
 
             return lijst;
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
+
 }

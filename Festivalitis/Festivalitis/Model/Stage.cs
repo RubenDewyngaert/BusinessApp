@@ -59,7 +59,7 @@ namespace FestivalApp.model
             return lijst;
         }
 
-        public static void NewStage(Stage stage)
+        public static void NewStage(String stage)
         {
             String sql = "INSERT INTO Stage VALUES(@Name)";
             DbParameter par1 = Database.AddParameter("@Name", stage);
@@ -77,8 +77,8 @@ namespace FestivalApp.model
 
         public static void EditStage(Stage stage, String naam)
         {
-            String sql = "UPDATE Stage Set Name=@naam WHERE ID=@Stage";
-            DbParameter par1 = Database.AddParameter("@Stage", stage._ID);
+            String sql = "UPDATE Stage Set Name=@naam WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("@ID", stage.ID);
             DbParameter par2 = Database.AddParameter("@naam", naam);
             if (par2.Value == null) par2.Value = DBNull.Value;
             Database.ModifyData(sql, par1, par2);

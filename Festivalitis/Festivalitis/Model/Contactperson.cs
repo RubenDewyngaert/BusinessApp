@@ -170,12 +170,66 @@ namespace FestivalApp.model
 
                 aNew._JobRole = ContactpersonType.getType(typeID);
 
-                
                 lijst.Add(aNew);
             }
 
 
             return lijst;
         }
+
+        public static void NewPerson(Contactperson person, string JRID) {
+            String sql = "INSERT INTO ContactPerson VALUES(@Name, @Company, @JobRole, @City, @Email, @Phone, @Cellphone)";
+            DbParameter par1 = Database.AddParameter("@Name", person.Name);
+            DbParameter par2 = Database.AddParameter("@Company", person.Company);
+            DbParameter par3 = Database.AddParameter("@JobRole", JRID);
+            DbParameter par4 = Database.AddParameter("@City", person.City);
+            DbParameter par5 = Database.AddParameter("@Email", person.Email);
+            DbParameter par6 = Database.AddParameter("@Phone", person.Phone);
+            DbParameter par7 = Database.AddParameter("@Cellphone", person.Cellphone);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            if (par3.Value == null) par3.Value = DBNull.Value;
+            if (par4.Value == null) par4.Value = DBNull.Value;
+            if (par5.Value == null) par5.Value = DBNull.Value;
+            if (par6.Value == null) par6.Value = DBNull.Value;
+            if (par7.Value == null) par7.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5, par6, par7); 
+        }
+
+        public static void DeletePerson(Contactperson person) {
+            String sql = "DELETE FROM ContactPerson WHERE ID = @Person";
+            DbParameter par1 = Database.AddParameter("@Person", person._ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1);
+        }
+
+        public static void EditPerson(Contactperson person, string JRID) {
+            String sql = "UPDATE ContactPerson Set Name=@Name, Company=@Company, JobRole=@JobRole, City=@City, Email=@Email, Phone=@Phone, Cellphone=@Cellphone WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("@ID", person.ID);
+            DbParameter par2 = Database.AddParameter("@Name", person.Name);
+            DbParameter par3 = Database.AddParameter("@Company", person.Company);
+            DbParameter par4 = Database.AddParameter("@JobRole", JRID);
+            DbParameter par5 = Database.AddParameter("@City", person.City);
+            DbParameter par6 = Database.AddParameter("@Email", person.Email);
+            DbParameter par7 = Database.AddParameter("@Phone", person.Phone);
+            DbParameter par8 = Database.AddParameter("@Cellphone", person.Cellphone);
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            if (par3.Value == null) par3.Value = DBNull.Value;
+            if (par4.Value == null) par4.Value = DBNull.Value;
+            if (par5.Value == null) par5.Value = DBNull.Value;
+            if (par6.Value == null) par6.Value = DBNull.Value;
+            if (par7.Value == null) par7.Value = DBNull.Value;
+            if (par8.Value == null) par8.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5, par6, par7, par8); 
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
+
+    
+
+    
 }

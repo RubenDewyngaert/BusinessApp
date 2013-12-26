@@ -1,10 +1,12 @@
 ﻿using FestivalApp.model;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Festivalitis.ViewModel
 {
@@ -12,7 +14,7 @@ namespace Festivalitis.ViewModel
     {
         public LineUpPageVM(){
         _lineups = LineUp.getAll();
-        //_podia = Stage.getAll();
+        _podia = Stage.getAll();
         }
 
         public string Name
@@ -41,14 +43,35 @@ namespace Festivalitis.ViewModel
             set
             {
                 _geselecteerdeLineup = value;
+                if(_geselecteerdeLineup != null){
+                    _newLineUp = _geselecteerdeLineup;
+
+                }
 
                 OnPropertyChanged("GeslecteerdLineup");
+                OnPropertyChanged("NewLineUp");
             }
         }
 
-        private ObservableCollection<LineUp> _podia;
+        private LineUp _newLineUp;
 
-        public ObservableCollection<LineUp> Podia
+        public LineUp newLineUp
+        {
+            get
+            {
+                return _newLineUp;
+            }
+
+            set
+            {
+                _newLineUp = value;
+                OnPropertyChanged("NewLineUp");
+            }
+        }
+
+        private ObservableCollection<Stage> _podia;
+
+        public ObservableCollection<Stage> Podia
         {
             get
             {
@@ -56,8 +79,8 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        private LineUp _geselecteerdePodium;
-        public LineUp GeselecteerdPodium
+        private Stage _geselecteerdePodium;
+        public Stage GeselecteerdPodium
         {
             get
             {
@@ -67,9 +90,76 @@ namespace Festivalitis.ViewModel
             set
             {
                 _geselecteerdePodium = value;
-
+                if (_geselecteerdePodium != null) {
+                    _newStage = _geselecteerdePodium.Name;
+                    Console.WriteLine("Select: " + _geselecteerdePodium.Name);
+                    Console.WriteLine(_newStage);
+                }
                 OnPropertyChanged("GeslecteerdPodium");
+                OnPropertyChanged("NewStage");
             }
         }
+
+        private String _newStage;
+        public String NewStage
+        {
+            get {
+                return _newStage;
+            }
+
+            set {
+                _newStage = value;
+                OnPropertyChanged("NewStage");
+            }
+        }
+
+        public ICommand DeleteStageCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteStage);
+            }
+        }
+
+        public void DeleteStage()
+        {
+            NewStage = "";
+            Stage.DeleteStage(GeselecteerdPodium);
+            Podia.Remove(GeselecteerdPodium);
+
+
+        }
+
+        public ICommand AddStageCommand
+        {
+            get
+            {
+                return new RelayCommand(AddStage);
+            }
+        }
+
+        public void AddStage()
+        {
+            Stage.NewStage(NewStage);
+            _podia = Stage.getAll();
+            OnPropertyChanged("Podia");
+        }
+
+        public ICommand EditStageCommand
+        {
+            get
+            {
+                return new RelayCommand(EditStage);
+            }
+        }
+
+        public void EditStage()
+        {
+            Stage.EditStage(GeselecteerdPodium, NewStage);
+            _podia = Stage.getAll();
+            OnPropertyChanged("Podia");
+        }
+        
+
     }
 }

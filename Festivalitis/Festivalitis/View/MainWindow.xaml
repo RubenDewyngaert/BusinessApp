@@ -25,7 +25,10 @@
             <DataTemplate DataType="{x:Type vm:TicketPageVM}">
                 <v:TicketPage/>
             </DataTemplate>
-            <ItemsPanelTemplate x:Key="MijnButtons">
+        <DataTemplate DataType="{x:Type vm:BandGenrePageVM}">
+            <v:BandGenre/>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="MijnButtons">
                 <WrapPanel />
 
             </ItemsPanelTemplate>

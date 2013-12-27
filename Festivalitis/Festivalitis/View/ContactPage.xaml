@@ -61,7 +61,8 @@
         <ListView Margin="10" ItemsSource="{Binding ContactPersonen}" SelectedItem="{Binding GeselecteerdPersoon}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Naam" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+                    <GridViewColumn Header="Bedrijf" DisplayMemberBinding="{Binding Path=Company}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

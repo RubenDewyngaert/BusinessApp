@@ -82,6 +82,7 @@
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Model\TicketType.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
+    <Compile Include="ViewModel\BandGenrePageVM.cs" />
     <Compile Include="ViewModel\BandPageVM.cs" />
     <Compile Include="ViewModel\ContactPageVM.cs" />
     <Compile Include="ViewModel\HomePageVM.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="ViewModel\LineUpPageVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\TicketPageVM.cs" />
+    <Compile Include="View\BandGenrePage.xaml.cs">
+      <DependentUpon>BandGenrePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BandPage.xaml.cs">
       <DependentUpon>BandPage.xaml</DependentUpon>
     </Compile>
@@ -101,6 +105,10 @@
     <Compile Include="View\TicketPage.xaml.cs">
       <DependentUpon>TicketPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\BandGenrePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BandPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

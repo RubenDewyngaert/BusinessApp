@@ -102,6 +102,8 @@ D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festi
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\bin\Debug\GalaSoft.MvvmLight.WPF45.xml
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\bin\Debug\System.Windows.Interactivity.xml
+D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\obj\Debug\View\BandGenrePage.g.cs
+D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\obj\Debug\View\BandGenrePage.baml
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\obj\Debug\View\MainWindow.baml
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\obj\Debug\Festivalitis.g.resources
 D:\School\Programmeren\Project\2NMCT5_Dewyngaert_Ruben_BAP_01\Festivalitis\Festivalitis\obj\Debug\Festivalitis.Properties.Resources.resources

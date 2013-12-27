@@ -76,18 +76,18 @@
                 <Button Height="30" Margin="10,35,10,0" VerticalAlignment="Top" Content="Bewerken" Grid.Row="1" Command="{Binding EditBandCommand}" />
                 <Button Height="30" Margin="10,70,10,0" VerticalAlignment="Top" Content="Verwijderen" Grid.Row="1" Command="{Binding DeleteBandCommand}" />
                 <Button Margin="10,105,10,0" Content="Bands toevoegen" Command="{Binding NewBandCommand}" Grid.Row="1" Height="30" VerticalAlignment="Top"  />
-                <Image x:Name="imgFoto" HorizontalAlignment="Left" Height="100" Margin="10,265,0,0" VerticalAlignment="Top" Width="100" />
+                <Image x:Name="imgFoto" HorizontalAlignment="Left" Height="100" Margin="10,275,0,0" VerticalAlignment="Top" Width="100" />
                 <Label Content="Naam" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="42"/>
-                <Label Content="Twitter" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Height="26" Width="46"/>
-                <Label Content="Facebook" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
-                <Label Content="Genres" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Height="26" Width="47"/>
-                <ListBox x:Name="lstGenres" Height="139" Margin="60,121,0,0" VerticalAlignment="Top" SelectionMode="Multiple" SelectedIndex="{Binding GenreNumbers}" ItemsSource="{Binding Genres}" />
-                <TextBox x:Name="txtDescription" Height="100" Margin="115,265,5,0" TextWrapping="Wrap" VerticalAlignment="Top"  Text="{Binding NewBand.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+                <Label Content="Twitter" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Height="26" Width="46"/>
+                <Label Content="Facebook" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
+                <Label Content="Genres" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Height="26" Width="47"/>
+                <ListBox x:Name="lstGenres" Height="48" Margin="62,37,-2,0" VerticalAlignment="Top" ItemsSource="{Binding NewBand.Genres}" />
+                <TextBox x:Name="txtDescription" Height="95" Margin="10,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top"  Text="{Binding NewBand.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
                 <TextBox x:Name="txtNaam" Height="23" Margin="85,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <TextBox x:Name="txtTwitter" Height="23" Margin="85,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Twitter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <TextBox x:Name="txtFacebook" Height="23" Margin="85,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Facebook, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <TextBox x:Name="txtPhoto" Height="23" Margin="85,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Photo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <Label Content="Foto" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
+                <TextBox x:Name="txtTwitter" Height="23" Margin="85,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Twitter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <TextBox x:Name="txtFacebook" Height="23" Margin="85,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Facebook, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <TextBox x:Name="txtPhoto" Height="23" Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewBand.Photo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Grid.Row="1" />
+                <Label Content="Foto" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
             </Grid>
         </GroupBox>
 

@@ -35,7 +35,14 @@
                     <RowDefinition Height="358*"/>
                     <RowDefinition Height="120"/>
                 </Grid.RowDefinitions>
-                <ListBox Margin="10,10,10.4,9.6" Grid.RowSpan="2" ItemsSource="{Binding Lineups}" SelectedItem="{Binding GeselecteerdLineup}" />
+                <ListView Margin="10,10,10.4,9.6" Grid.RowSpan="2" ItemsSource="{Binding Lineups}" SelectedItem="{Binding GeselecteerdLineup}" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Band" DisplayMemberBinding="{Binding Path=Band}"></GridViewColumn>
+                            <GridViewColumn Header="Stage" DisplayMemberBinding="{Binding Path=Stage}"></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
         </GroupBox>
         <GroupBox Header="Filteren" Grid.Row="1" Grid.Column="1">
@@ -44,7 +51,7 @@
                     <ColumnDefinition Width="75*"/>
                     <ColumnDefinition Width="281*"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox Margin="28,10,10,0" Height="30" VerticalAlignment="Top" Grid.Column="1" ItemsSource="{Binding Data}" SelectedIndex="{Binding DayNumber}" />
+                <DatePicker Margin="28,10,10,0" Height="30" VerticalAlignment="Top" Grid.Column="1" SelectedDate="{Binding Data}"  />
                 <Label Content="Dag" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <Button Grid.ColumnSpan="2" Margin="10,45,10,63.4" Content="Filter" Height="30" />
             </Grid>

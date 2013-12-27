@@ -23,6 +23,7 @@ namespace Festivalitis.ViewModel
             _pages.Add(new ContactPageVM());
             _pages.Add(new LineUpPageVM());
             _pages.Add(new TicketPageVM());
+            _pages.Add(new BandGenrePageVM());
 
 
             //default zetten we de CurrentPage in op de eerste IPage

@@ -98,13 +98,67 @@ namespace FestivalApp.model
             {
                 LineUp aNew = new LineUp();
                 aNew.ID = reader["ID"].ToString();
-                //aNew.Band = Band.getBand(reader["Band"].ToString());
-                //aNew.Stage = Stage.getStage(reader["Stage"].ToString());
+                aNew.Date = Convert.ToDateTime(reader["Date"].ToString());
+                aNew.From = reader["Vanaf"].ToString();
+                aNew.Until = reader["Until"].ToString();
+                string BandID = reader["Band"].ToString();
+                string StageID = reader["Stage"].ToString();
+                aNew.Band = Band.getBand(BandID);
+                aNew.Stage = Stage.getStage(StageID);
+
                 lijst.Add(aNew);
             }
 
 
             return lijst;
+        }
+
+
+        public static void NewLineUp(LineUp lineup, string SID, string BID)
+        {
+            String sql = "INSERT INTO LineUp VALUES(@Date, @Vanaf, @Until, @Stage, @Band)";
+            DbParameter par1 = Database.AddParameter("@Date", lineup.Date);
+            DbParameter par2 = Database.AddParameter("@Vanaf", lineup.From);
+            DbParameter par3 = Database.AddParameter("@Until", lineup.Until);
+            DbParameter par4 = Database.AddParameter("@Stage", SID);
+            DbParameter par5 = Database.AddParameter("@Band", BID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            if (par3.Value == null) par3.Value = DBNull.Value;
+            if (par4.Value == null) par4.Value = DBNull.Value;
+            if (par5.Value == null) par5.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5);
+        }
+
+        public static void DeleteLineUp(LineUp lineup)
+        {
+            String sql = "DELETE FROM LineUp WHERE ID = @ID";
+            DbParameter par1 = Database.AddParameter("@ID", lineup._ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1);
+        }
+
+        public static void EditLineUp(LineUp lineup, string SID, string BID)
+        {
+            String sql = "UPDATE LineUp Set Date=@Date, Vanaf=@Vanaf, Until=@Until, Stage=@Stage, Band=@Band WHERE ID=@ID";
+            DbParameter par1 = Database.AddParameter("@ID", lineup.ID);
+            DbParameter par2 = Database.AddParameter("@Date", lineup.Date);
+            DbParameter par3 = Database.AddParameter("@Vanaf", lineup.From);
+            DbParameter par4 = Database.AddParameter("@Until", lineup.Until);
+            DbParameter par5 = Database.AddParameter("@Stage", SID);
+            DbParameter par6 = Database.AddParameter("@Band", BID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            if (par3.Value == null) par3.Value = DBNull.Value;
+            if (par4.Value == null) par4.Value = DBNull.Value;
+            if (par5.Value == null) par5.Value = DBNull.Value;
+            if (par6.Value == null) par6.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par3, par4, par5, par6);
+        }
+
+        public override string ToString() 
+        {
+            return this.Band.Name + " speelt op " + this.Stage.Name;
         }
     }
 }

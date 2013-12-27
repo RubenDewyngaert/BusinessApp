@@ -19,6 +19,11 @@ namespace Festivalitis.ViewModel
 
         }
 
+        public string Name
+        {
+            get { return "Bands"; }
+        }
+
         private ObservableCollection<Genre> _genres;
 
         public ObservableCollection<Genre> Genres
@@ -89,12 +94,23 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        private ObservableCollection<int> _genreNumbers;
+
+        public ObservableCollection<int> GenreNumbers {
+            get
+            {
+                return _genreNumbers;
+            }
+
+            set
+            {
+                _genreNumbers = value;
+                OnPropertyChanged("GenreNumber");
+            }
+        }
         
 
-        public string Name
-        {
-            get { return "Bands"; }
-        }
+        
 
         private ObservableCollection<Band> _bands;
 
@@ -116,45 +132,81 @@ namespace Festivalitis.ViewModel
 
             set
             {
+
                 _geselecteerdeBand = value;
-                Console.WriteLine("Select: " + _geselecteerdeBand.Name);
+                if (_geselecteerdeBand != null)
+                {
+                    _newBand = _geselecteerdeBand;
+                    Console.WriteLine("Select: " + _geselecteerdeBand.Name);
+                    Console.WriteLine(_newBand.Name);
+
+                    foreach (Genre g in _geselecteerdeBand.Genres)
+                    {
+                        int i = 0;
+                        foreach (Genre gbg in _genres) {
+                            if (gbg == g)
+                            {
+                                _genreNumbers.Add(i);
+                                break;
+                            }
+                            i++;
+                        }
+
+                    }
+
+                }
 
                 OnPropertyChanged("GeselecteerdBand");
+                OnPropertyChanged("NewBand");
+                OnPropertyChanged("GenreNumbers");
+
             }
         }
+
+        #region BandCommands
 
         public ICommand DeleteBandCommand
         {
             get { return new RelayCommand(DeleteBand); }
         }
 
-        public ICommand SaveBandCommand
+        public ICommand EditBandCommand
         {
-            get { return new RelayCommand(SaveBand); }
+            get { return new RelayCommand(EditBand); }
+        }
+
+        public ICommand NewBandCommand
+        {
+            get
+            {
+                return new RelayCommand(AddBand);
+            }
         }
 
 
         public void DeleteBand()
         {
-            //Band.Remove(SelectedBand);
-            //Bands.Remove(SelectedBand);
+            Band.DeleteBand(GeselecteerdBand);
+            _bands.Remove(GeselecteerdBand);
         }
 
-        public void SaveBand()
+        public void EditBand()
         {
-            //Band.EditBand(SelectedBand);
+            Band.EditBand(NewBand);
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
         }
 
-
-        public ICommand NewBandCommand {
-            get {
-                return new RelayCommand(AddBand);
-            }
+        public void AddBand() 
+        {
+            Band.NewBand(NewBand);
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
         }
 
-        public void AddBand() {
-            //Band.NewBand(_newBand);
-        }
+        #endregion
+
+        #region Genre commands
 
         public ICommand DeleteGenreCommand {
             get
@@ -199,5 +251,7 @@ namespace Festivalitis.ViewModel
             _genres = Genre.getAll();
             OnPropertyChanged("Genres");
         }
+
+#endregion
     }
 }

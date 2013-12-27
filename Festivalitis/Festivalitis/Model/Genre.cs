@@ -58,6 +58,41 @@ namespace FestivalApp.model
             return lijst;
         }
 
+        public static ObservableCollection<Genre> getByBand(string BandID)
+        {
+            ObservableCollection<Genre> lijst = new ObservableCollection<Genre>();
+
+            String sSQL = "SELECT * FROM BandGenre WHERE BandId = @BID";
+            DbParameter par1 = Database.AddParameter("@BID", BandID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            DbDataReader reader = Database.GetData(sSQL, par1);
+            while (reader.Read())
+            {
+
+                lijst.Add(getById(reader["GenreID"].ToString()));
+
+            }
+
+            return lijst;
+        }
+
+        public static Genre getById(string GenreID)
+        {
+            Genre genre = new Genre();
+
+            String sSQL = "SELECT * FROM Genre WHERE ID = @ID";
+            DbParameter par1 = Database.AddParameter("@ID", GenreID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            DbDataReader reader = Database.GetData(sSQL, par1);
+            while (reader.Read())
+            {
+                genre.ID = reader["ID"].ToString();
+                genre.Name = reader["Name"].ToString();
+            }
+
+            return genre;
+        }
+
         public static void NewGenre(String genre){
             String sql =  "INSERT INTO Genre VALUES(@Name)";
             DbParameter par1 = Database.AddParameter("@Name", genre);

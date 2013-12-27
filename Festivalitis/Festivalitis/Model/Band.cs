@@ -146,6 +146,9 @@ namespace FestivalApp.model
                 {
                     aNew.Facebook = null;
                 }
+
+                aNew.Genres = Genre.getByBand(aNew.ID);
+
                 lijst.Add(aNew);
             }
 
@@ -153,14 +156,18 @@ namespace FestivalApp.model
             return lijst;
         }
 
-        /*public static Band getBand(String bandId){
+        public static Band getBand(String id)
+        {
             Band band = new Band();
-            String sSQL = "SELECT * FROM Band WHERE id=@filter";
-            DbParameter filter = Database.AddParameter("@filter", bandId);
-            DbDataReader reader = Database.GetData(sSQL);
+
+            String sSQL = "SELECT * FROM Band WHERE ID = @ID";
+            DbParameter par1 = Database.AddParameter("@ID", id);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            DbDataReader reader = Database.GetData(sSQL, par1);
             while (reader.Read())
-                band.ID = reader["ID"].ToString();
-            band.Name = reader["Name"].ToString();
+            {
+                band.Name = reader["Name"].ToString();
+                band.ID = id;
                 if (!DBNull.Value.Equals(reader["Description"]))
                 {
                     band.Description = reader["Description"].ToString();
@@ -169,41 +176,46 @@ namespace FestivalApp.model
                 {
                     band.Description = null;
                 }
-            if (!DBNull.Value.Equals(reader["Picture"]))
-            {
-                band.Picture = "Images/" + reader["Picture"].ToString() + ".jpg";
-            }
-            else
-            {
-                band.Picture = null;
-            }
-            if (!DBNull.Value.Equals(reader["Twitter"]))
-            {
-                band.Twitter = reader["Twitter"].ToString();
-            }
-            else
-            {
-                band.Twitter = null;
-            }
-            if (!DBNull.Value.Equals(reader["Facebook"]))
-            {
-                band.Facebook = reader["Facebook"].ToString();
-            }
-            else
-            {
-                band.Facebook = null;
+                if (!DBNull.Value.Equals(reader["Picture"]))
+                {
+                    band.Picture = "Images/" + reader["Picture"].ToString() + ".jpg";
+                }
+                else
+                {
+                    band.Picture = null;
+                }
+                if (!DBNull.Value.Equals(reader["Twitter"]))
+                {
+                    band.Twitter = reader["Twitter"].ToString();
+                }
+                else
+                {
+                    band.Twitter = null;
+                }
+                if (!DBNull.Value.Equals(reader["Facebook"]))
+                {
+                    band.Facebook = reader["Facebook"].ToString();
+                }
+                else
+                {
+                    band.Facebook = null;
+                }
+                band.Genres = Genre.getByBand(id);
             }
 
+
             return band;
-        }*/
+        }
+
+       
         public static void NewBand(Band band)
         {
             String sql = "INSERT INTO Band (Name, Picture, Description, Twitter, Facebook) VALUES(@Name, @Picture, @Description, @Twitter, @Facebook)";
             DbParameter par1 = Database.AddParameter("@Name", band._Name);
-            DbParameter par2 = Database.AddParameter("@Picture", band._Name);
-            DbParameter par3 = Database.AddParameter("@Description", band._Name);
-            DbParameter par4 = Database.AddParameter("@Twitter", band._Name);
-            DbParameter par5 = Database.AddParameter("@Facebook", band._Name);
+            DbParameter par2 = Database.AddParameter("@Picture", band.Picture);
+            DbParameter par3 = Database.AddParameter("@Description", band.Description);
+            DbParameter par4 = Database.AddParameter("@Twitter", band.Twitter);
+            DbParameter par5 = Database.AddParameter("@Facebook", band.Facebook);
             if (par1.Value == null) par1.Value = DBNull.Value;
             Database.ModifyData(sql, par1, par2, par3, par4, par5);
         }
@@ -218,7 +230,7 @@ namespace FestivalApp.model
 
         public static void EditBand(Band band)
         {
-            String sql = "UPDATE Stage Set Name=@naam Stage=@Stage Picture=@Picture Description=@Description Twitter=@Twitter Facebook=@Facebook WHERE ID=@Band";
+            String sql = "UPDATE Band Set Name=@Name, Picture=@Picture, Description=@Description, Twitter=@Twitter, Facebook=@Facebook WHERE ID=@Band";
             DbParameter par1 = Database.AddParameter("@Band", band._ID);
             DbParameter par2 = Database.AddParameter("@Name", band._Name);
             DbParameter par3 = Database.AddParameter("@Picture", band._Picture);

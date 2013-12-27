@@ -223,10 +223,12 @@ namespace FestivalApp.model
             Database.ModifyData(sql, par1, par2, par3, par4, par5, par6, par7, par8); 
         }
 
+
         public override string ToString()
         {
             return this.Name;
         }
+
     }
 
     

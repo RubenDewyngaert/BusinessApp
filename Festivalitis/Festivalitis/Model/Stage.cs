@@ -59,6 +59,24 @@ namespace FestivalApp.model
             return lijst;
         }
 
+        public static Stage getStage(String id)
+        {
+            Stage stage = new Stage();
+
+            String sSQL = "SELECT * FROM Stage WHERE ID = @ID";
+            DbParameter par1 = Database.AddParameter("@ID", id);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            DbDataReader reader = Database.GetData(sSQL, par1);
+            while (reader.Read())
+            {
+                stage.Name = reader["Name"].ToString();
+                stage.ID = id;
+            }
+
+
+            return stage;
+        }
+
         public static void NewStage(String stage)
         {
             String sql = "INSERT INTO Stage VALUES(@Name)";

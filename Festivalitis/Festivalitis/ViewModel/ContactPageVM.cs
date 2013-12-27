@@ -18,6 +18,9 @@ namespace Festivalitis.ViewModel
             _contactpersonen = Contactperson.getAll();
             _contactpersonTypes = ContactpersonType.getAll();
             _roles = ContactpersonType.getAll();
+            _newPerson = new Contactperson();
+            _newRole = "";
+
         }
 
         public string Name
@@ -114,6 +117,7 @@ namespace Festivalitis.ViewModel
             }
         }
 
+
         private ObservableCollection<ContactpersonType> _roles;
 
         public ObservableCollection<ContactpersonType> Roles
@@ -147,8 +151,6 @@ namespace Festivalitis.ViewModel
                     Console.WriteLine(_newRole);
                 }
 
-
-                //deze is nodig zodat dit kan geupdate worden, de controls worden zo geupdate -->>> NOODZAKELIJK
                 OnPropertyChanged("GeslecteerdRole");
                 OnPropertyChanged("NewRole");
             }
@@ -169,6 +171,8 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("NewRole");
             }
         }
+
+        #region PersonCommands
 
         public ICommand AddPersonCommand
         {
@@ -216,6 +220,7 @@ namespace Festivalitis.ViewModel
             ContactPersonen.Remove(GeselecteerdPersoon);
         }
 
+
         public ICommand DeleteRoleCommand
         {
             get
@@ -223,6 +228,8 @@ namespace Festivalitis.ViewModel
                 return new RelayCommand(DeleteRole);
             }
         }
+
+        #endregion
 
         public void DeleteRole()
         {
@@ -323,9 +330,10 @@ namespace Festivalitis.ViewModel
 
 
         public void SearchContact() {
+            ObservableCollection<Contactperson> cpTotal = Contactperson.getAll();
             ObservableCollection<Contactperson> cplijst = new ObservableCollection<Contactperson>();
 
-            foreach (Contactperson cp in _contactpersonen) {
+            foreach (Contactperson cp in cpTotal) {
                 if (cp.Name.ToLower().Contains(_searchTerm.ToLower())) {
 
                     cplijst.Add(cp);
@@ -349,7 +357,6 @@ namespace Festivalitis.ViewModel
             OnPropertyChanged("ContactPersonen");
             OnPropertyChanged("SearchTerm");
         }
-
         
     }
 }

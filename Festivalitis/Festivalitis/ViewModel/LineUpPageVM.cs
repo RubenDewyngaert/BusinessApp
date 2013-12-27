@@ -15,6 +15,10 @@ namespace Festivalitis.ViewModel
         public LineUpPageVM(){
         _lineups = LineUp.getAll();
         _podia = Stage.getAll();
+        _bands = Band.getAll();
+        _stages = Stage.getAll();
+        _newLineUp = new LineUp();
+        _newStage = "";
         }
 
         public string Name
@@ -32,6 +36,54 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        private ObservableCollection<Band> _bands;
+
+        public ObservableCollection<Band> Bands
+        {
+            get
+            {
+                return _bands;
+            }
+            set
+            {
+                _bands = value;
+                OnPropertyChanged("Bands");
+            }
+        }
+
+        private ObservableCollection<Band> _data;
+
+        public ObservableCollection<Band> Data
+        {
+            get
+            {
+                return _data;
+            }
+            set
+            {
+                _data = value;
+                OnPropertyChanged("Data");
+            }
+        }
+
+
+
+        private ObservableCollection<Stage> _stages;
+
+        public ObservableCollection<Stage> Stages
+        {
+            get
+            {
+                return _stages;
+            }
+
+            set
+            {
+                _stages = value;
+                OnPropertyChanged("Stages");
+            }
+        }
+
         private LineUp _geselecteerdeLineup;
         public LineUp GeselecteerdLineup
         {
@@ -46,16 +98,88 @@ namespace Festivalitis.ViewModel
                 if(_geselecteerdeLineup != null){
                     _newLineUp = _geselecteerdeLineup;
 
+                    int i = 0;
+                    int j = 0;
+
+                    foreach (Band b in _bands) {
+                        if (b.ID == _geselecteerdeLineup.Band.ID)
+                        {
+                            _bandNumber = i;
+                            break;
+                        }
+                        i++;
+                    }
+
+                    foreach (Stage s in _stages) {
+                        if (s.ID == _geselecteerdeLineup.Stage.Name)
+                        {
+                            _stageNumber = j;
+                            break;
+                        }
+                        j++;
+                    }
+
+
+
                 }
 
                 OnPropertyChanged("GeslecteerdLineup");
                 OnPropertyChanged("NewLineUp");
+                OnPropertyChanged("BandNumber");
+                OnPropertyChanged("StageNumber");
+            }
+        }
+        private int _bandNumber;
+
+        public int BandNumber
+        {
+            get
+            {
+                return _bandNumber;
+            }
+
+            set
+            {
+                _bandNumber = value;
+                OnPropertyChanged("BandNumber");
+            }
+        }
+
+        private int _stageNumber;
+
+        public int StageNumber
+        {
+            get
+            {
+                return _stageNumber;
+            }
+
+            set
+            {
+                _stageNumber = value;
+                OnPropertyChanged("StageNumber");
+            }
+        }
+
+        private int _dayNumber;
+
+        public int DayNumber
+        {
+            get
+            {
+                return _dayNumber;
+            }
+
+            set
+            {
+                _dayNumber = value;
+                OnPropertyChanged("DayNumber");
             }
         }
 
         private LineUp _newLineUp;
 
-        public LineUp newLineUp
+        public LineUp NewLineUp
         {
             get
             {
@@ -69,6 +193,7 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        
         private ObservableCollection<Stage> _podia;
 
         public ObservableCollection<Stage> Podia
@@ -158,6 +283,56 @@ namespace Festivalitis.ViewModel
             Stage.EditStage(GeselecteerdPodium, NewStage);
             _podia = Stage.getAll();
             OnPropertyChanged("Podia");
+        }
+
+
+        //Bewerken van de Lineup ADD, EDIT & DELETE
+        public ICommand AddLineUpCommand
+        {
+            get
+            {
+                return new RelayCommand(AddLineUp);
+            }
+        }
+
+        public void AddLineUp()
+        {
+            NewLineUp.Band = _bands[_bandNumber];
+            NewLineUp.Stage = _stages[_stageNumber];
+            LineUp.NewLineUp(NewLineUp, NewLineUp.Stage.ID, NewLineUp.Band.ID);
+            _lineups = LineUp.getAll();
+            OnPropertyChanged("LineUps");
+        }
+
+        public ICommand EditLineUpCommand
+        {
+            get
+            {
+                return new RelayCommand(EditLineUp);
+            }
+        }
+
+        public void EditLineUp()
+        {
+            NewLineUp.Band = _bands[_bandNumber];
+            NewLineUp.Stage = _stages[_stageNumber];
+            LineUp.EditLineUp(NewLineUp, NewLineUp.Stage.ID, NewLineUp.Band.ID);
+            _lineups = LineUp.getAll();
+            OnPropertyChanged("LineUps");
+        }
+
+        public ICommand DeleteLineUpCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteLineUp);
+            }
+        }
+
+        public void DeleteLineUp()
+        {
+            LineUp.DeleteLineUp(GeselecteerdLineup);
+            Lineups.Remove(GeselecteerdLineup);
         }
         
 

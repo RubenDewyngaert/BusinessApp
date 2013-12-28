@@ -13,12 +13,15 @@ namespace Festivalitis.ViewModel
     class LineUpPageVM : ObservableObject, IPage
     {
         public LineUpPageVM(){
-        _lineups = LineUp.getAll();
-        _podia = Stage.getAll();
-        _bands = Band.getAll();
-        _stages = Stage.getAll();
-        _newLineUp = new LineUp();
-        _newStage = "";
+            _lineups = LineUp.getAll();
+            _podia = Stage.getAll();
+            _bands = Band.getAll();
+            _stages = Stage.getAll();
+            _newLineUp = new LineUp();
+            _newStage = "";
+            _festival = Festival.GetData();
+            _start = _festival.StartDate;
+            _end = _festival.EndDate;
         }
 
         public string Name
@@ -51,9 +54,9 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        private ObservableCollection<Band> _data;
+        private string _data;
 
-        public ObservableCollection<Band> Data
+        public string Data
         {
             get
             {
@@ -63,6 +66,51 @@ namespace Festivalitis.ViewModel
             {
                 _data = value;
                 OnPropertyChanged("Data");
+            }
+        }
+
+        private Festival _festival;
+
+        public Festival Festival
+        {
+            get
+            {
+                return _festival;
+            }
+            set
+            {
+                _festival = value;
+                OnPropertyChanged("Festival");
+            }
+        }
+
+        private DateTime _start;
+
+        public DateTime Start
+        {
+            get
+            {
+                return _start;
+            }
+            set
+            {
+                _start = value;
+                OnPropertyChanged("Start");
+            }
+        }
+
+        private DateTime _end;
+
+        public DateTime End
+        {
+            get
+            {
+                return _end;
+            }
+            set
+            {
+                _end = value;
+                OnPropertyChanged("End");
             }
         }
 

@@ -83,6 +83,26 @@ namespace FestivalApp.model
             return lijst;
         }
 
+        public static TicketType getByID(String ID)
+        {
+            TicketType type = new TicketType();
+
+            String sSQL = "SELECT * FROM TicketType WHERE ID = @ID";
+            DbParameter par1 = Database.AddParameter("@ID", ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            DbDataReader reader = Database.GetData(sSQL, par1);
+            while (reader.Read())
+            {
+                type.ID = ID;
+                type.Name = reader["Name"].ToString();
+                type.Price = Convert.ToDouble(reader["Price"].ToString());
+                type.AvailableTickets = Int32.Parse(reader["AvailableTickets"].ToString());
+            }
+
+
+            return type;
+        }
+
         public static void NewType(TicketType type)
         {
             String sql = "INSERT INTO TicketType (Name, Price, AvailableTickets) VALUES(@Name, @Price, @AvailableTickets)";

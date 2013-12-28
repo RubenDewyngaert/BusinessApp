@@ -221,6 +221,9 @@ namespace Festivalitis.ViewModel
         }
 
 
+        
+        #endregion
+
         public ICommand DeleteRoleCommand
         {
             get
@@ -229,7 +232,6 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        #endregion
 
         public void DeleteRole()
         {

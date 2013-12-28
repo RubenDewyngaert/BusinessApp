@@ -29,11 +29,11 @@
                     <RowDefinition Height="120*"/>
                 </Grid.RowDefinitions>
                 <Label>Alle genres</Label>
-                <ComboBox Margin="0,36,0,64" Height="30" ItemsSource="{Binding Genres}"  SelectedItem="{Binding GeselecteerdGenre}"/>
-                <Button Margin="0,81,0,19" Height="30" Command="{Binding AddGenreCommand}">Genre Toevoegen</Button>
-                <Label Grid.Row="1">Band genres</Label>
-                <ComboBox Grid.Row="1" Margin="0,34,0,66" Height="30" ItemsSource="{Binding BandGenres}"  SelectedItem="{Binding GeselecteerdBandGenre}" />
-                <Button Grid.Row="1" Margin="0,80,0,20" Height="30" Command="{Binding DeleteGenreCommand}">Genre Verwijderen</Button>
+                <ComboBox Margin="0,36,0,0" Height="40" ItemsSource="{Binding Genres}"  SelectedItem="{Binding GeselecteerdGenre}" VerticalAlignment="Top"/>
+                <Button Margin="0,81,0,0" Height="40" Command="{Binding AddGenreCommand}" VerticalAlignment="Top" IsEnabled="{Binding Toevoegen}">Genre Toevoegen</Button>
+                <Label Grid.Row="1" VerticalAlignment="Top">Band genres</Label>
+                <ComboBox Grid.Row="1" Margin="0,34,0,0" Height="40" ItemsSource="{Binding BandGenres}"  SelectedItem="{Binding GeselecteerdBandGenre}" VerticalAlignment="Top" />
+                <Button Grid.Row="1" Margin="0,80,0,0" Height="40" Command="{Binding DeleteGenreCommand}" VerticalAlignment="Top">Genre Verwijderen</Button>
             </Grid>
         </GroupBox>
     </Grid>

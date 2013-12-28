@@ -241,6 +241,24 @@ namespace FestivalApp.model
             Database.ModifyData(sql, par1, par2, par3, par4, par5, par6);
         }
 
+        public static void NewBandGenre(Band band, Genre genre)
+        {
+            String sql = "INSERT INTO BandGenre (BandId, GenreId) VALUES(@Band, @Genre)";
+            DbParameter par1 = Database.AddParameter("@Band", band.ID);
+            DbParameter par2 = Database.AddParameter("@Genre", genre.ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2);
+        }
+
+        public static void DeleteBandGenre(Band band, Genre genre)
+        {
+            String sql = "DELETE FROM BandGenre WHERE BandId = @Band AND GenreId = @Genre";
+            DbParameter par1 = Database.AddParameter("@Band", band.ID);
+            DbParameter par2 = Database.AddParameter("@Genre", genre.ID);
+            if (par1.Value == null) par1.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2);
+        }
+
         public override string ToString()
         {
             return this.Name;

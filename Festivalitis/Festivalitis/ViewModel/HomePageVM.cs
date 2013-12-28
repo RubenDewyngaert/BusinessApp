@@ -2,9 +2,11 @@
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Festivalitis.ViewModel
@@ -21,6 +23,7 @@ namespace Festivalitis.ViewModel
 
         public HomePageVM() {
             _festival = Festival.GetData();
+            _lineups = LineUp.getAll();
         }
 
         private Festival _festival;
@@ -33,6 +36,21 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("Festival");
             }
         
+        }
+
+        private ObservableCollection<LineUp> _lineups;
+        public ObservableCollection<LineUp> LineUps
+        {
+            get
+            {
+                return _lineups;
+            }
+            set
+            {
+                _lineups = value;
+                OnPropertyChanged("LineUps");
+            }
+
         }
 
         public ICommand EditDataCommand
@@ -50,7 +68,32 @@ namespace Festivalitis.ViewModel
             editFestival.StartDate = Festival.StartDate;
             editFestival.EndDate = Festival.EndDate;
 
-            Festival.EditData(editFestival);
+
+            Boolean TeVroeg = false;
+            Boolean TeLaat = false;
+
+            foreach (LineUp lu in _lineups) {
+                if (lu.Date < editFestival.StartDate) { 
+                    TeVroeg = true;
+                }
+                if (lu.Date > editFestival.EndDate)
+                {
+                    TeLaat = true;
+                }
+            }
+            if (TeVroeg == true)
+            {
+                MessageBox.Show("De wijzigingen werden niet toegepast. Bepaalde Optredens vallen voor de startdatum.");
+            }
+            else {
+                if (TeLaat == true)
+                {
+                    MessageBox.Show("De wijzigingen werden niet toegepast. Bepaalde Optredens vallen na de einddatum.");
+                }
+                else {
+                    Festival.EditData(editFestival);
+                }
+            }
         }
     }
 }

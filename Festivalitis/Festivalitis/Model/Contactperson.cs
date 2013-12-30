@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FestivalApp.model
 {
-    class Contactperson
+    class Contactperson : IDataErrorInfo
     {
         private String _ID;
         public String ID
@@ -24,9 +25,11 @@ namespace FestivalApp.model
                 _ID = value;
             }
         }
+
+
+        private String _Name;
         [Required(ErrorMessage = "De naam is verplicht")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "De naam moet tussen de 2 en 50 karakters bevatten ")]
-        private String _Name;
         public String Name
         {
             get
@@ -39,6 +42,8 @@ namespace FestivalApp.model
             }
         }
         private String _Company;
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "De naam moet tussen de 2 en 50 karakters bevatten ")]
         public String Company
         {
             get
@@ -64,6 +69,8 @@ namespace FestivalApp.model
             }
         }
         private String _City;
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "De naam moet tussen de 2 en 50 karakters bevatten ")]
         public String City
         {
             get
@@ -77,6 +84,8 @@ namespace FestivalApp.model
         }
 
         private String _Email;
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig emailadres")]
         public String Email
         {
             get
@@ -89,6 +98,8 @@ namespace FestivalApp.model
             }
         }
         private String _Phone;
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [Phone(ErrorMessage = "Dit is geen geldig telefoonnummer")]
         public String Phone
         {
             get
@@ -102,6 +113,8 @@ namespace FestivalApp.model
         }
 
         private String _Cellphone;
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [Phone(ErrorMessage = "Dit is geen geldig telefoonnummer")]
         public String Cellphone
         {
             get
@@ -113,6 +126,63 @@ namespace FestivalApp.model
                 _Cellphone = value;
             }
         }
+
+        #region DataValidatie
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+
+        public string Error
+        {
+            get { return "Model not valid"; }
+        }
+
+
+
+        //string IDataErrorInfo.Error
+        //{
+        //    get { return "Model not valid"; }
+        //}
+
+        //string IDataErrorInfo.this[string columnName]
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            object value = this.GetType().GetProperty(columnName).GetValue(this);
+        //            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+        //            {
+        //                MemberName = columnName
+        //            });
+        //        }
+        //        catch (ValidationException ex)
+        //        {
+        //            return ex.Message;
+        //        }
+        //        return String.Empty;
+        //    }
+        //}
+
+        #endregion
 
         public static ObservableCollection<Contactperson> getAll()
         {

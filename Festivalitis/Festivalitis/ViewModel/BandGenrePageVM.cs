@@ -17,7 +17,12 @@ namespace Festivalitis.ViewModel
             _genres = Genre.getAll();
             _bandGenres = Genre.getAll();
             _toevoegen = false;
+        }
 
+        public static void UpdateAll()
+        {
+            _bands = Band.getAll();
+            _genres = Genre.getAll();
         }
 
         public string Name
@@ -25,7 +30,7 @@ namespace Festivalitis.ViewModel
             get { return "Genres/Band"; }
         }
 
-        private ObservableCollection<Band> _bands;
+        private static ObservableCollection<Band> _bands;
         public ObservableCollection<Band> Bands
         {
             get
@@ -50,13 +55,13 @@ namespace Festivalitis.ViewModel
             set
             {
                 _geselecteerdeBand = value;
-                _bandGenres = GeselecteerdBand.Genres;
+                _bandGenres = _geselecteerdeBand.Genres;
                 OnPropertyChanged("GeselecteerdBand");
                 OnPropertyChanged("BandGenres");
             }
         }
 
-        private ObservableCollection<Genre> _genres;
+        private static ObservableCollection<Genre> _genres;
         public ObservableCollection<Genre> Genres
         {
             get
@@ -152,6 +157,8 @@ namespace Festivalitis.ViewModel
         {
             Band.DeleteBandGenre(GeselecteerdBand ,GeselecteerdBandGenre);
             BandGenres.Remove(GeselecteerdBandGenre);
+            BandPageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
 
         public ICommand AddGenreCommand
@@ -166,7 +173,11 @@ namespace Festivalitis.ViewModel
         {
             Band.NewBandGenre(GeselecteerdBand, GeselecteerdGenre);
             _bandGenres.Add(GeselecteerdGenre);
+            _toevoegen = false;
             OnPropertyChanged("BandGenres");
+            OnPropertyChanged("Toevoegen");
+            BandPageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
     }
 }

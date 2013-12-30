@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FestivalApp.model
 {
-    class LineUp
+    class LineUp: IDataErrorInfo
     {
         private String _ID;
         public String ID
@@ -25,6 +27,7 @@ namespace FestivalApp.model
         }
 
         private DateTime _Date;
+        [Required(ErrorMessage = "De datum is verplicht")]
         public DateTime Date
         {
             get
@@ -37,6 +40,7 @@ namespace FestivalApp.model
             }
         }
         private String _From;
+        [Required(ErrorMessage = "Het starttijd is verplicht")]
         public String From
         {
             get
@@ -50,6 +54,7 @@ namespace FestivalApp.model
         }
 
         private String _Until;
+        [Required(ErrorMessage = "De eindtijd is verplicht")]
         public String Until
         {
             get
@@ -87,12 +92,71 @@ namespace FestivalApp.model
             }
         }
 
+
+        #region DataValidatie
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+
+        public string Error
+        {
+            get { return "Model not valid"; }
+        }
+
+
+
+        //string IDataErrorInfo.Error
+        //{
+        //    get { return "Model not valid"; }
+        //}
+
+        //string IDataErrorInfo.this[string columnName]
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            object value = this.GetType().GetProperty(columnName).GetValue(this);
+        //            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+        //            {
+        //                MemberName = columnName
+        //            });
+        //        }
+        //        catch (ValidationException ex)
+        //        {
+        //            return ex.Message;
+        //        }
+        //        return String.Empty;
+        //    }
+        //}
+
+        #endregion
+
+
         public static ObservableCollection<LineUp> getAll()
         {
 
             ObservableCollection<LineUp> lijst = new ObservableCollection<LineUp>();
 
-            String sSQL = "SELECT * FROM LineUp";
+            String sSQL = "SELECT * FROM LineUp ORDER BY Date, Vanaf";
             DbDataReader reader = Database.GetData(sSQL);
             while (reader.Read())
             {

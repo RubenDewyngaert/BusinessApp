@@ -32,8 +32,8 @@ namespace FestivalApp.model
                 _Name = value;
             }
         }
-        private String _Picture;
-        public String Picture
+        private byte[] _Picture;
+        public byte[] Picture
         {
             get
             {

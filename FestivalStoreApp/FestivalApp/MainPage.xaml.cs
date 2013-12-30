@@ -59,7 +59,7 @@ namespace FestivalApp
             txtTwitter.Text = "Twitter: " + band.Twitter;
 
             BitmapImage img = new BitmapImage(); 
-            img.UriSource = new Uri(this.BaseUri, "Images/" + band.Picture);
+            img.UriSource = new Uri(this.BaseUri, "Images/" + band.Name +".jpg");
             imgBand.Source = img;
         }
 

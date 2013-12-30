@@ -5,6 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="541.422" d:DesignWidth="788.611">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder/>
+                </Border>
+                <StackPanel.ToolTip>
+                    <ToolTip Content="{Binding [0].ErrorContent}">
+                    </ToolTip>
+                </StackPanel.ToolTip>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid Background="#FFE5E5E5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250*"/>

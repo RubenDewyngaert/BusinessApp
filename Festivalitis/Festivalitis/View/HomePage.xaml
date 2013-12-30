@@ -5,6 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
             d:DesignHeight="541.422" d:DesignWidth="788.611">
+    <UserControl.Resources>
+            <ControlTemplate x:Key="ErrorTemplate">
+                <StackPanel>
+                    <Border BorderBrush="Red" BorderThickness="2">
+                        <AdornedElementPlaceholder/>
+                    </Border>
+                    <StackPanel.ToolTip>
+                        <ToolTip Content="{Binding [0].ErrorContent}">
+                        </ToolTip>
+                    </StackPanel.ToolTip>
+                </StackPanel>
+            </ControlTemplate>
+    </UserControl.Resources>
     <Grid Background="#FFE5E5E5">
         <GroupBox Grid.Column="1" Header="Details" Margin="10">
             <Grid>
@@ -13,13 +26,13 @@
                     <ColumnDefinition Width="279*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Naam" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <TextBox Grid.ColumnSpan="2" Margin="10" Grid.Column="1" Height="30" VerticalAlignment="Top" Text="{Binding Festival.Name, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.ColumnSpan="2" Margin="10" Grid.Column="1" Height="30" VerticalAlignment="Top" Text="{Binding Festival.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
 
                 <Label Content="Starttijd" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>
-                <DatePicker Grid.ColumnSpan="2" Margin="10,45,10,0" Grid.Column="1" Height="30" VerticalAlignment="Top" SelectedDate="{Binding Festival.StartDate, UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker Grid.ColumnSpan="2" Margin="10,45,10,0" Grid.Column="1" Height="30" VerticalAlignment="Top" SelectedDate="{Binding Festival.StartDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" IsHitTestVisible="True" IsTodayHighlighted="True"/>
 
                 <Label Content="Eindtijd" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top"/>
-                <DatePicker Grid.ColumnSpan="2" Margin="10,80,10,0" Grid.Column="1" Height="30" VerticalAlignment="Top" SelectedDate="{Binding Festival.EndDate, UpdateSourceTrigger=PropertyChanged}" />
+                <DatePicker Grid.ColumnSpan="2" Margin="10,80,10,0" Grid.Column="1" Height="30" VerticalAlignment="Top" SelectedDate="{Binding Festival.EndDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
 
                 <Button Margin="10,0,10.6,9.8" Height="30" VerticalAlignment="Bottom" Content="Aanpassen" Grid.ColumnSpan="2" Command="{Binding EditDataCommand}" />
             </Grid>

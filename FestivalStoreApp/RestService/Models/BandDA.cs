@@ -11,7 +11,7 @@ namespace RestService.Models
     public class BandDA
     {
         public static List<Band> GetBands() {
-            List<Band> lijst = new List<Band>(); string sSQL = "SELECT * FROM [Band]";
+            List<Band> lijst = new List<Band>(); string sSQL = "SELECT * FROM [Bands]";
 
             DbDataReader reader = Database.GetData(sSQL, null);
 
@@ -19,16 +19,44 @@ namespace RestService.Models
             {
                 while (reader.Read())
                 {
-                    Band aNieuw = new Band();
+                    Band aNew = new Band();
 
-                    aNieuw.ID = reader["ID"].ToString(); 
-                    aNieuw.Name = reader["Name"].ToString(); 
-                    aNieuw.Picture = reader["Picture"].ToString(); 
-                    aNieuw.Description = reader["Description"].ToString(); 
-                    aNieuw.Twitter = reader["Twitter"].ToString(); 
-                    aNieuw.Facebook = reader["Facebook"].ToString();
+                    aNew.ID = reader["ID"].ToString();
+                    aNew.Name = reader["Name"].ToString();
+                    if (!DBNull.Value.Equals(reader["Description"]))
+                    {
+                        aNew.Description = reader["Description"].ToString();
+                    }
+                    else
+                    {
+                        aNew.Description = null;
+                    }
+                    if (!DBNull.Value.Equals(reader["Picture"]))
+                    {
+                        aNew.Picture = (byte[])reader["Picture"];
+                    }
+                    else
+                    {
+                        aNew.Picture = new byte[0];
+                    }
+                    if (!DBNull.Value.Equals(reader["Twitter"]))
+                    {
+                        aNew.Twitter = reader["Twitter"].ToString();
+                    }
+                    else
+                    {
+                        aNew.Twitter = null;
+                    }
+                    if (!DBNull.Value.Equals(reader["Facebook"]))
+                    {
+                        aNew.Facebook = reader["Facebook"].ToString();
+                    }
+                    else
+                    {
+                        aNew.Facebook = null;
+                    }
 
-                    lijst.Add(aNieuw);
+                    lijst.Add(aNew);
                 }
             } return lijst;
         }

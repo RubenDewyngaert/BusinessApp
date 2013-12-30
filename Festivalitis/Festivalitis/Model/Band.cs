@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FestivalApp.model
 {
-    class Band
+    class Band: IDataErrorInfo
     {
         private String _ID;
         public String ID
@@ -25,9 +26,9 @@ namespace FestivalApp.model
             }
         }
 
+        private String _Name;
         [Required(ErrorMessage = "De naam is verplicht")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "De naam moet tussen de 2 en 50 karakters bevatten ")]
-        private String _Name;
         public String Name
         {
             get
@@ -39,8 +40,8 @@ namespace FestivalApp.model
                 _Name = value;
             }
         }
-        private String _Picture;
-        public String Picture
+        private byte[] _Picture;
+        public byte[] Picture
         {
             get
             {
@@ -64,7 +65,9 @@ namespace FestivalApp.model
                 _Description = value;
             }
         }
+
         private String _Twitter;
+        [Url(ErrorMessage = "Dit moet een geldige URL zijn")]
         public String Twitter
         {
             get
@@ -78,6 +81,7 @@ namespace FestivalApp.model
         }
 
         private String _Facebook;
+        [Url(ErrorMessage = "Dit moet een geldige URL zijn")]
         public String Facebook
         {
             get
@@ -102,11 +106,69 @@ namespace FestivalApp.model
             }
         }
 
+        #region DataValidatie
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+                    {
+                        MemberName = columnName
+                    });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+
+        public string Error
+        {
+            get { return "Model not valid"; }
+        }
+
+
+
+        //string IDataErrorInfo.Error
+        //{
+        //    get { return "Model not valid"; }
+        //}
+
+        //string IDataErrorInfo.this[string columnName]
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            object value = this.GetType().GetProperty(columnName).GetValue(this);
+        //            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+        //            {
+        //                MemberName = columnName
+        //            });
+        //        }
+        //        catch (ValidationException ex)
+        //        {
+        //            return ex.Message;
+        //        }
+        //        return String.Empty;
+        //    }
+        //}
+
+        #endregion 
+
+
         public static ObservableCollection<Band> getAll()
         {
             ObservableCollection<Band> lijst = new ObservableCollection<Band>();
 
-            String sSQL = "SELECT * FROM Band";
+            String sSQL = "SELECT * FROM Bands";
             DbDataReader reader = Database.GetData(sSQL);
             while (reader.Read())
             {
@@ -124,11 +186,11 @@ namespace FestivalApp.model
                 }
                 if (!DBNull.Value.Equals(reader["Picture"]))
                 {
-                    aNew.Picture = "Images/" + reader["Picture"].ToString() + ".jpg";
+                    aNew.Picture = (byte[])reader["Picture"];
                 }
                 else
                 {
-                    aNew.Picture = null;
+                    aNew.Picture = new byte[0];
                 }
                 if (!DBNull.Value.Equals(reader["Twitter"]))
                 {
@@ -160,7 +222,7 @@ namespace FestivalApp.model
         {
             Band band = new Band();
 
-            String sSQL = "SELECT * FROM Band WHERE ID = @ID";
+            String sSQL = "SELECT * FROM Bands WHERE ID = @ID";
             DbParameter par1 = Database.AddParameter("@ID", id);
             if (par1.Value == null) par1.Value = DBNull.Value;
             DbDataReader reader = Database.GetData(sSQL, par1);
@@ -178,7 +240,7 @@ namespace FestivalApp.model
                 }
                 if (!DBNull.Value.Equals(reader["Picture"]))
                 {
-                    band.Picture = "Images/" + reader["Picture"].ToString() + ".jpg";
+                    band.Picture = (byte[])reader["Picture"];
                 }
                 else
                 {
@@ -210,19 +272,20 @@ namespace FestivalApp.model
        
         public static void NewBand(Band band)
         {
-            String sql = "INSERT INTO Band (Name, Picture, Description, Twitter, Facebook) VALUES(@Name, @Picture, @Description, @Twitter, @Facebook)";
+            String sql = "INSERT INTO Bands (Name, Picture, Description, Twitter, Facebook) VALUES(@Name, @Picture, @Description, @Twitter, @Facebook)";
             DbParameter par1 = Database.AddParameter("@Name", band._Name);
             DbParameter par2 = Database.AddParameter("@Picture", band.Picture);
             DbParameter par3 = Database.AddParameter("@Description", band.Description);
             DbParameter par4 = Database.AddParameter("@Twitter", band.Twitter);
             DbParameter par5 = Database.AddParameter("@Facebook", band.Facebook);
-            if (par1.Value == null) par1.Value = DBNull.Value;
+            if (par2.Value == null) par2.Value = DBNull.Value;
+            if (par3.Value == null) par3.Value = DBNull.Value;
             Database.ModifyData(sql, par1, par2, par3, par4, par5);
         }
 
         public static void DeleteBand(Band band)
         {
-            String sql = "DELETE FROM Band WHERE ID = @Band";
+            String sql = "DELETE FROM Bands WHERE ID = @Band";
             DbParameter par1 = Database.AddParameter("@Band", band._ID);
             if (par1.Value == null) par1.Value = DBNull.Value;
             Database.ModifyData(sql, par1);
@@ -230,15 +293,23 @@ namespace FestivalApp.model
 
         public static void EditBand(Band band)
         {
-            String sql = "UPDATE Band Set Name=@Name, Picture=@Picture, Description=@Description, Twitter=@Twitter, Facebook=@Facebook WHERE ID=@Band";
+            String sql = "UPDATE Bands Set Name=@Name, Description=@Description, Twitter=@Twitter, Facebook=@Facebook WHERE ID=@Band";
             DbParameter par1 = Database.AddParameter("@Band", band._ID);
             DbParameter par2 = Database.AddParameter("@Name", band._Name);
-            DbParameter par3 = Database.AddParameter("@Picture", band._Picture);
             DbParameter par4 = Database.AddParameter("@Description", band._Description);
             DbParameter par5 = Database.AddParameter("@Twitter", band._Twitter);
             DbParameter par6 = Database.AddParameter("@Facebook", band._Facebook);
-            if (par1.Value == null) par1.Value = DBNull.Value;
-            Database.ModifyData(sql, par1, par2, par3, par4, par5, par6);
+            if (par4.Value == null) par4.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par2, par4, par5, par6);
+        }
+
+        public static void EditPicture(Band band, Byte[] picture)
+        {
+            String sql = "UPDATE Bands Set Picture=@Picture WHERE ID=@Band";
+            DbParameter par1 = Database.AddParameter("@Band", band._ID);
+            DbParameter par3 = Database.AddParameter("@Picture", picture);
+            if (par3.Value == null) par3.Value = DBNull.Value;
+            Database.ModifyData(sql, par1, par3);
         }
 
         public static void NewBandGenre(Band band, Genre genre)
@@ -263,6 +334,7 @@ namespace FestivalApp.model
         {
             return this.Name;
         }
+
 
     }
 }

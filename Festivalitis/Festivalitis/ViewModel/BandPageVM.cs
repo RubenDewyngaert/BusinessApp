@@ -1,8 +1,10 @@
 ﻿using FestivalApp.model;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,15 @@ namespace Festivalitis.ViewModel
         public BandPageVM(){
             _bands = Band.getAll();
             _genres = Genre.getAll();
+            NewBand = new Band();
+            Foto = false;
+            NewBand = _bands[0];
+            Console.WriteLine("Check");
+        }
 
+        public static void UpdateAll() {
+            _bands = Band.getAll();
+            _genres = Genre.getAll();
         }
 
         public string Name
@@ -24,7 +34,7 @@ namespace Festivalitis.ViewModel
             get { return "Bands"; }
         }
 
-        private ObservableCollection<Genre> _genres;
+        private static ObservableCollection<Genre> _genres;
 
         public ObservableCollection<Genre> Genres
         {
@@ -108,11 +118,11 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("GenreNumber");
             }
         }
-        
 
-        
 
-        private ObservableCollection<Band> _bands;
+
+
+        private static ObservableCollection<Band> _bands;
 
         public ObservableCollection<Band> Bands
         {
@@ -136,6 +146,7 @@ namespace Festivalitis.ViewModel
                 _geselecteerdeBand = value;
                 if (_geselecteerdeBand != null)
                 {
+                    Foto = true;
                     _newBand = _geselecteerdeBand;
                     Console.WriteLine("Select: " + _geselecteerdeBand.Name);
                     Console.WriteLine(_newBand.Name);
@@ -143,7 +154,8 @@ namespace Festivalitis.ViewModel
                     foreach (Genre g in _geselecteerdeBand.Genres)
                     {
                         int i = 0;
-                        foreach (Genre gbg in _genres) {
+                        foreach (Genre gbg in _genres)
+                        {
                             if (gbg == g)
                             {
                                 _genreNumbers.Add(i);
@@ -153,13 +165,31 @@ namespace Festivalitis.ViewModel
                         }
 
                     }
-
+                }
+                else {
+                    Foto = false;
                 }
 
                 OnPropertyChanged("GeselecteerdBand");
                 OnPropertyChanged("NewBand");
                 OnPropertyChanged("GenreNumbers");
 
+            }
+        }
+
+        private Boolean _foto;
+
+        public Boolean Foto
+        {
+            get
+            {
+                return _foto;
+            }
+
+            set
+            {
+                _foto = value;
+                OnPropertyChanged("Foto");
             }
         }
 
@@ -175,6 +205,12 @@ namespace Festivalitis.ViewModel
             get { return new RelayCommand(EditBand); }
         }
 
+        public ICommand EditPhotoCommand
+        {
+            get { return new RelayCommand(EditPhoto); }
+        }
+
+        
         public ICommand NewBandCommand
         {
             get
@@ -188,6 +224,8 @@ namespace Festivalitis.ViewModel
         {
             Band.DeleteBand(GeselecteerdBand);
             _bands.Remove(GeselecteerdBand);
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
 
         public void EditBand()
@@ -195,11 +233,43 @@ namespace Festivalitis.ViewModel
             Band.EditBand(NewBand);
             _bands = Band.getAll();
             OnPropertyChanged("Bands");
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
 
         public void AddBand() 
         {
+            NewBand.Picture = _bands[0].Picture;
             Band.NewBand(NewBand);
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
+        }
+
+        public void EditPhoto() {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Images (.jpg)|*.jpg";
+            ofd.FilterIndex = 1;
+            byte[] b = new byte[0];
+
+            bool? userClickedOK = ofd.ShowDialog();
+            if (userClickedOK == true) {
+                string sFile = ofd.FileName;
+                b = File.ReadAllBytes(sFile);
+
+                //System.IO.StreamReader sr = new
+                //System.IO.StreamReader(ofd.FileName);
+                //MessageBox.Show(sr.ReadToEnd());
+                //sr.Close();
+                //System.IO.Stream fileStream = ofd.File.OpenRead();
+                //using (System.IO.StreamReader reader = new System.IO.StreamReader(fileStream))
+                //{
+                //    tbResults.Text = reader.ReadLine();
+                //}
+                //fileStream.Close();
+            }
+            Band.EditPicture(NewBand,b);
             _bands = Band.getAll();
             OnPropertyChanged("Bands");
         }
@@ -220,7 +290,8 @@ namespace Festivalitis.ViewModel
             NewGenre = "";
             Genre.DeleteGenre(GeselecteerdGenre);
             Genres.Remove(GeselecteerdGenre);
-
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
 
         }
 
@@ -235,6 +306,8 @@ namespace Festivalitis.ViewModel
             Genre.NewGenre(NewGenre);
             _genres = Genre.getAll();
             OnPropertyChanged("Genres");
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
 
         public ICommand EditGenreCommand
@@ -250,6 +323,8 @@ namespace Festivalitis.ViewModel
             Genre.EditGenre(GeselecteerdGenre, NewGenre);
             _genres = Genre.getAll();
             OnPropertyChanged("Genres");
+            BandGenrePageVM.UpdateAll();
+            LineUpPageVM.UpdateAll();
         }
 
 #endregion

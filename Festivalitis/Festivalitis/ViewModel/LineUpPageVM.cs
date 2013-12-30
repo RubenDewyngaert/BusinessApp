@@ -22,6 +22,13 @@ namespace Festivalitis.ViewModel
             _festival = Festival.GetData();
             _start = _festival.StartDate;
             _end = _festival.EndDate;
+            _newLineUp.Date = _festival.StartDate;
+            _data = Start;
+        }
+
+        public static void UpdateAll()
+        {
+            _bands = Band.getAll();
         }
 
         public string Name
@@ -39,8 +46,7 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        private ObservableCollection<Band> _bands;
-
+        private static ObservableCollection<Band> _bands;
         public ObservableCollection<Band> Bands
         {
             get
@@ -54,9 +60,9 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        private string _data;
+        private DateTime _data;
 
-        public string Data
+        public DateTime Data
         {
             get
             {
@@ -382,7 +388,48 @@ namespace Festivalitis.ViewModel
             LineUp.DeleteLineUp(GeselecteerdLineup);
             Lineups.Remove(GeselecteerdLineup);
         }
-        
+
+        #region search
+
+        public ICommand SearchLineUpCommand
+        {
+            get
+            {
+                return new RelayCommand(SearchLineUp);
+            }
+        }
+
+
+        public ICommand ClearSearchCommand
+        {
+            get
+            {
+                return new RelayCommand(ClearSearch);
+            }
+        }
+
+        public void SearchLineUp()
+        {
+            ObservableCollection<LineUp> Searchups = LineUp.getAll();
+            ObservableCollection<LineUp> Resultups = new ObservableCollection<LineUp>();
+            foreach (LineUp lu in Searchups) {
+                if (lu.Date == Data)
+                {
+                    Resultups.Add(lu);
+                }
+            }
+
+            _lineups = Resultups;
+            OnPropertyChanged("LineUps");
+        }
+
+        public void ClearSearch() {
+            _lineups = LineUp.getAll();
+            OnPropertyChanged("LineUps");
+        }
+
+
+        #endregion 
 
     }
 }

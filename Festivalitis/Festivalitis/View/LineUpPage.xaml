@@ -5,6 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="541.422" d:DesignWidth="788.611">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ErrorTemplate">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder/>
+                </Border>
+                <StackPanel.ToolTip>
+                    <ToolTip Content="{Binding [0].ErrorContent}">
+                    </ToolTip>
+                </StackPanel.ToolTip>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid Background="#FFE5E5E5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -16,20 +29,20 @@
             <RowDefinition Height="160"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Podia" Grid.RowSpan="2" >
+        <GroupBox Header="Podia" Grid.RowSpan="2" Margin="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="156"/>
                 </Grid.RowDefinitions>
                 <ListBox Margin="10" ItemsSource="{Binding Podia}" SelectedItem="{Binding GeselecteerdPodium}"/>
-                <TextBox Height="31" Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewStage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"/>
+                <TextBox Height="20" Margin="10,14,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding NewStage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"/>
                 <Button Grid.Row="1" Height="30" Margin="10,45,10,0" VerticalAlignment="Top" Content="Toevoegen"  Command="{Binding AddStageCommand}" />
                 <Button Grid.Row="1" Height="30" Margin="10,80,10,0" VerticalAlignment="Top" Content="Bewerken" Command="{Binding EditStageCommand}"  />
                 <Button Grid.Row="1" Height="30" Margin="10,115,10,0" VerticalAlignment="Top" Content="Verwijderen" Command="{Binding DeleteStageCommand}"  />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Line-Up" Grid.Column="1">
+        <GroupBox Header="Line-Up" Grid.Column="1" Margin="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="358*"/>
@@ -40,12 +53,14 @@
                         <GridView>
                             <GridViewColumn Header="Band" DisplayMemberBinding="{Binding Path=Band}"></GridViewColumn>
                             <GridViewColumn Header="Stage" DisplayMemberBinding="{Binding Path=Stage}"></GridViewColumn>
+                            <GridViewColumn Header="Startuur" DisplayMemberBinding="{Binding Path=From}"></GridViewColumn>
+                            <GridViewColumn Header="Datum" DisplayMemberBinding="{Binding Path=Date}"></GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Filteren" Grid.Row="1" Grid.Column="1">
+        <GroupBox Header="Filteren" Grid.Row="1" Grid.Column="1" Margin="10">
             <Grid Margin="0,0,-0.4,-0.4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*"/>
@@ -53,10 +68,11 @@
                 </Grid.ColumnDefinitions>
                 <DatePicker Margin="28,10,10,0" Height="30" VerticalAlignment="Top" Grid.Column="1" SelectedDate="{Binding Data}" DisplayDateStart="{Binding Start}" DisplayDateEnd="{Binding End}" />
                 <Label Content="Dag" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Button Grid.ColumnSpan="2" Margin="10,45,10,63.4" Content="Filter" Height="30" />
+                <Button Grid.ColumnSpan="2" Margin="10,45,10,46.4" Content="Filter" Command="{Binding SearchLineUpCommand}"/>
+                <Button Grid.ColumnSpan="2" Margin="10,77,10,15.4" Content="Clear Filter" Command="{Binding ClearSearchCommand}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Details" Grid.Column="2" Grid.RowSpan="2">
+        <GroupBox Header="Details" Grid.Column="2" Grid.RowSpan="2" Margin="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>

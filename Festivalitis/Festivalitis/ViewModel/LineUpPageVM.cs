@@ -29,6 +29,7 @@ namespace Festivalitis.ViewModel
         public static void UpdateAll()
         {
             _bands = Band.getAll();
+            _festival = Festival.GetData();
         }
 
         public string Name
@@ -75,7 +76,7 @@ namespace Festivalitis.ViewModel
             }
         }
 
-        private Festival _festival;
+        private static Festival _festival;
 
         public Festival Festival
         {

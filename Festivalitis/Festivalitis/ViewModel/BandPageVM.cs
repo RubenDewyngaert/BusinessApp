@@ -34,6 +34,8 @@ namespace Festivalitis.ViewModel
             get { return "Bands"; }
         }
 
+        #region Genre Fiels
+
         private static ObservableCollection<Genre> _genres;
 
         public ObservableCollection<Genre> Genres
@@ -88,6 +90,10 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("NewGenre");
             }
         }
+
+        #endregion
+
+        #region Band Fields
 
         private Band _newBand;
 
@@ -177,6 +183,10 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        #endregion
+
+        #region foto
+
         private Boolean _foto;
 
         public Boolean Foto
@@ -192,6 +202,8 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("Foto");
             }
         }
+
+        #endregion
 
         #region BandCommands
 
@@ -292,6 +304,8 @@ namespace Festivalitis.ViewModel
             Genres.Remove(GeselecteerdGenre);
             BandGenrePageVM.UpdateAll();
             LineUpPageVM.UpdateAll();
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
 
         }
 
@@ -305,6 +319,8 @@ namespace Festivalitis.ViewModel
         public void AddGenre() {
             Genre.NewGenre(NewGenre);
             _genres = Genre.getAll();
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
             OnPropertyChanged("Genres");
             BandGenrePageVM.UpdateAll();
             LineUpPageVM.UpdateAll();
@@ -325,6 +341,8 @@ namespace Festivalitis.ViewModel
             OnPropertyChanged("Genres");
             BandGenrePageVM.UpdateAll();
             LineUpPageVM.UpdateAll();
+            _bands = Band.getAll();
+            OnPropertyChanged("Bands");
         }
 
 #endregion

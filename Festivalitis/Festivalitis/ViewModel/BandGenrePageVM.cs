@@ -30,6 +30,8 @@ namespace Festivalitis.ViewModel
             get { return "Genres/Band"; }
         }
 
+        #region Band Fields
+
         private static ObservableCollection<Band> _bands;
         public ObservableCollection<Band> Bands
         {
@@ -60,6 +62,10 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("BandGenres");
             }
         }
+
+        #endregion
+
+        #region Genre Fields
 
         private static ObservableCollection<Genre> _genres;
         public ObservableCollection<Genre> Genres
@@ -130,6 +136,10 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        #endregion
+
+        #region Commands
+
         private Boolean _toevoegen;
         public Boolean Toevoegen
         {
@@ -179,5 +189,7 @@ namespace Festivalitis.ViewModel
             BandPageVM.UpdateAll();
             LineUpPageVM.UpdateAll();
         }
+
+        #endregion
     }
 }

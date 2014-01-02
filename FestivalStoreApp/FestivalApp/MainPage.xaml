@@ -19,9 +19,9 @@
         <TextBlock Text="Bands" FontSize="50" Margin="32,10,10,10"/>
         <ListBox x:Name="bandslist" DisplayMemberPath="Name" Grid.Row="1" Background="Black" SelectionChanged="bandslist_SelectionChanged" Margin="20"/>
         <TextBlock x:Name="txtBand" Text="Band" FontSize="35" Margin="22,20,704,614" Grid.Column="1" Grid.Row="1"/>
-        <TextBlock x:Name="txtFacebook" Grid.Column="1" HorizontalAlignment="Left" Margin="501,77,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Facebook" VerticalAlignment="Top" FontSize="30" />
-        <TextBlock x:Name="txtTwitter" Grid.Column="1" HorizontalAlignment="Left" Margin="501,118,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Twitter" VerticalAlignment="Top" FontSize="30" />
-        <TextBlock x:Name="txtBeschrijving" Grid.Column="1" HorizontalAlignment="Left" Margin="501,159,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Beschrijving" VerticalAlignment="Top" FontSize="30" />
-        <Image x:Name="imgBand" Grid.Column="1" HorizontalAlignment="Left" Height="381" Margin="22,77,0,0" Grid.Row="1" VerticalAlignment="Top" Width="441"/>
+        <TextBlock x:Name="txtFacebook" Grid.Column="1" HorizontalAlignment="Left" Margin="22,91,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Facebook" VerticalAlignment="Top" FontSize="30" />
+        <TextBlock x:Name="txtTwitter" Grid.Column="1" HorizontalAlignment="Left" Margin="22,132,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Twitter" VerticalAlignment="Top" FontSize="30" />
+        <TextBlock x:Name="txtBeschrijving" Grid.Column="1" HorizontalAlignment="Left" Margin="22,173,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Beschrijving" VerticalAlignment="Top" FontSize="30" />
+        <Image x:Name="imgBand" Grid.Column="1" HorizontalAlignment="Left" Height="381" Margin="512,20,0,0" Grid.Row="1" VerticalAlignment="Top" Width="441"/>
     </Grid>
 </Page>

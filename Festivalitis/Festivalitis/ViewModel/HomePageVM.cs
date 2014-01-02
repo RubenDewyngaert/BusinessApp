@@ -14,8 +14,6 @@ namespace Festivalitis.ViewModel
     //dit is de viewmodel klasse dat hoort bij de view 'homepage'
     class HomePageVM : ObservableObject, IPage //eerst klasse dan pas interface
     {
-
-
         public string Name
         {
             get { return "Algemeen"; } //unieke naam!
@@ -25,6 +23,8 @@ namespace Festivalitis.ViewModel
             _festival = Festival.GetData();
             _lineups = LineUp.getAll();
         }
+
+        #region Festival Fields
 
         private Festival _festival;
         public Festival Festival {
@@ -52,6 +52,10 @@ namespace Festivalitis.ViewModel
             }
 
         }
+
+        #endregion
+
+        #region Commands
 
         public ICommand EditDataCommand
         {
@@ -94,6 +98,10 @@ namespace Festivalitis.ViewModel
                     Festival.EditData(editFestival);
                 }
             }
+            LineUpPageVM.UpdateAll();
+
         }
     }
+
+        #endregion
 }

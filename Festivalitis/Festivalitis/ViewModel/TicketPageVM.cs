@@ -38,6 +38,8 @@ namespace Festivalitis.ViewModel
 
         }
 
+        #region Type Fields
+
         private ObservableCollection<TicketType> _types;
         public ObservableCollection<TicketType> Types {
             get
@@ -93,6 +95,10 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("NewType");
             }
         }
+
+        #endregion
+
+        #region Tickets Fields
 
         private ObservableCollection<Ticket> _tickets;
         public ObservableCollection<Ticket> Tickets
@@ -172,6 +178,10 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        #endregion
+
+        #region Aantal Fields
+
         private int _soortAantal;
 
         public int SoortAantal
@@ -219,6 +229,8 @@ namespace Festivalitis.ViewModel
                 OnPropertyChanged("Aantal");
             }
         }
+
+        #endregion
 
         #region TicketCommands
 

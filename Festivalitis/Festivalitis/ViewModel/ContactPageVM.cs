@@ -28,6 +28,8 @@ namespace Festivalitis.ViewModel
             get { return "Contactpersonen"; }
         }
 
+        #region Contactpersonen Fields
+
         private ObservableCollection<Contactperson> _contactpersonen;
 
         public ObservableCollection<Contactperson> ContactPersonen
@@ -172,6 +174,8 @@ namespace Festivalitis.ViewModel
             }
         }
 
+        #endregion
+
         #region PersonCommands
 
         public ICommand AddPersonCommand
@@ -223,6 +227,8 @@ namespace Festivalitis.ViewModel
 
         
         #endregion
+
+        #region RoleCommands
 
         public ICommand DeleteRoleCommand
         {
@@ -308,6 +314,10 @@ namespace Festivalitis.ViewModel
             OnPropertyChanged("Roles");
         }
 
+        #endregion
+
+        #region Zoek Commands
+
         private String _searchTerm;
 
         public String SearchTerm
@@ -359,6 +369,8 @@ namespace Festivalitis.ViewModel
             OnPropertyChanged("ContactPersonen");
             OnPropertyChanged("SearchTerm");
         }
-        
+
+        #endregion
+
     }
 }
